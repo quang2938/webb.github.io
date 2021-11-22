@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <title>Document</title>
+    <!-- ---------------------------------- ↓ STYLE ↓ ---------------------------------- -->
+    <style>
+        *{
+            font-family: sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 5px;
+            overflow-x: hidden;
+        }
+        body{
+            background-color: lavenderblush;
+        }
+        header,
+        footer{
+            background-image: url('./1.jpg');
+            height: 80px;
+            } footer{
+                margin-top: 55px;
+        }
+        h1{
+            color: blue;
+        }
+        p{
+            font-weight: bold;
+        }
+        table,tr, th, td{
+            border: solid blue 2px;
+            min-width: 100%;
+            border-collapse: collapse;
+        }
+        .inputClass{
+            min-width: 350px;
+            } .inputColor{
+                background-color: bisque;    
+                } .inputColor:hover{
+                    background-color: burlywood;
+        }
+        @media only screen and (max-width: 667px) {
+            input{
+                min-width: 95%;
+            }
+        }
+    </style>
+    <!-- ---------------------------------- ↑ STYLE ↑ ---------------------------------- -->
+</head>
+<!-- ---------------------------------- ↓ BODY ↓ --------------------------------- -->
+<body>
+    <header></header>
+    <form action='' method="GET" id="myForm" name="myForm">
+        <h1>Class Marksheet</h1>
+        <p>Họ và tên:</p>
+            <input class="inputClass" type="text" id="myName" name="myName">
+        <p>Điểm Toán:</p>
+            <input class="inputClass" type="number" id="myToan" name="myToan" >
+        <p>Điểm Lý:</p> 
+            <input class="inputClass" type="number" id="myLy" name="myLy">
+        <p>Điểm Hóa:</p> 
+            <input class="inputClass" type="number" id="myHoa" name="myHoa">
+        <p><input class="inputColor" type="button" id="nhapbtn" name="nhapbtn" value="Nhập"></p>
+    </form>
+    <table id="myTable" name="myTable">
+        <tr id="row" name="row">
+            <th>STT</th>
+            <th>Họ và tên</th>
+            <th>Toán</th>
+            <th>Lý</th>
+            <th>Hóa</th>
+            <th>Trung bình</th>
+        </tr>
+    </table><br>
+    <input class="inputColor" type="button" id="diemtrungbinh" name="diemtrungbinh" value="Tính điểm trung bình">
+    <input class="inputColor" type="button" id="hocsinhgioi" name="hocsinhgioi" value="Xác định học sinh giỏi">
+    <footer></footer>
+    <!-- ----------------------------------- ↓ jS ↓ ----------------------------------- -->
+    <script>
+        $(function (){
+            var name, toan, ly, hoa;
+            $('#nhapbtn').click(function (){
+                name = $('#myName').val();
+                toan = $('#myToan').val();
+                ly = $('#myLy').val();
+                hoa = $('#myHoa').val();
+                if(name != '' && toan <= 10 && toan != '' && ly <= 10 && ly != '' && hoa <= 10 && hoa != ''){
+                    $('#myTable').append('<tr><td></td> <td></td> <td></td> <td></td> <td></td> <td></td></tr>')
+                        $('td:first-child').last().html($('tr').length-1);                       
+                        $('td:nth-child(2)').last().html(name);                       
+                        toan = parseFloat(toan);
+                            $('td:nth-child(3)').last().html(toan);                        
+                        ly = parseFloat(ly);
+                            $('td:nth-child(4)').last().html(ly);                        
+                        hoa = parseFloat(hoa);
+                            $('td:nth-child(5)').last().html(hoa);
+                        $('td:last-child').last().html("?");
+                }else{}
+            });
+            $('#diemtrungbinh').click(function(){
+                $('tr').each(function(){
+                    let toan = parseFloat($(this).children('td:nth-child(3)').html());
+                    let ly = parseFloat($(this).children('td:nth-child(4)').html());
+                    let hoa = parseFloat($(this).children('td:nth-child(5)').html());
+                    let final = ((toan + ly + hoa) / 3).toFixed(1);
+                    $(this).children('td:last-child').html(final);
+                });
+            });
+            $('#hocsinhgioi').click(function(){
+                $('tr').each(function(){
+                    if(parseFloat($(this).children('td:last-child').html()) >= 8){
+                        $(this).children('tr > td').css({"background-color": "red"});
+                    }else{}
+                });
+            });
+        });
+    </script>
+    <!-- ----------------------------------- ↑ jS ↑ ----------------------------------- -->
+</body>
+<!-- ---------------------------------- ↑ BODY ↑ ---------------------------------- -->
+</html>
